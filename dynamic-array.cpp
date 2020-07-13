@@ -15,12 +15,16 @@ class DynamicArray {
     int capacity = START_SIZE;
     T values[START_SIZE];
   public:
-    DynamicArray() {
-      //this->size = 0;
-      //this->capacity = START_SIZE;
-      //values = {};
+    void resize(int n) {
+      // if shrinking, then only copy first n
+      int copyAmt = size < n ? size : n;
+      capacity = n;
+      T bigger[capacity];
+      for (int i = 0; i < size; i ++) {
+        bigger[i] = values[i];
+      }
+      values = bigger;
     }
-    void resize(int n);
     T &get(int i) {
       if (i < size) {
         return values[i];
@@ -39,17 +43,14 @@ class DynamicArray {
       }
     };
     void push_back(T val) {
-      size ++;
       if (size == capacity) {
         capacity *= 2;
-        T bigger[capacity];
-        for (int i = 0; i < size - 1; i ++) {
-          bigger[i] = this->values[i];
-        }
-        bigger[size - 1] = val;
-        this->values = bigger;
+        resize(capacity);
+        values[size] = val;
+        size ++;
       } else {
-        this->values[size - 1] = val;
+        values[size] = val;
+        size ++;
       }
     }
 };
