@@ -13,11 +13,13 @@ class DynamicArray {
   private:
     int size = 0;
     int capacity = START_SIZE;
-    // pointer to beginning of array
     T *values;
   public:
-    DynamicArray() {
+    DynamicArray () {
       values = new T[capacity];
+    }
+    ~DynamicArray () {
+      delete [] values;
     }
     void resize(int n) {
       // if shrinking, then only copy first n
@@ -48,7 +50,7 @@ class DynamicArray {
       }
     };
     void push_back(T val) {
-      if (size == capacity - 1) {
+      if (size == capacity) {
         capacity *= 2;
         resize(capacity);
         *(values+size) = val;
@@ -63,9 +65,8 @@ class DynamicArray {
 // example usage
 int main () {
   DynamicArray<int> z;
-  z.resize(5);
-  z.push_back(0);
-  z.push_back(1);
-  z[1] = 2;
-  std::cout << z[1] << "\n";
+  z.push_back(3);
+  z.push_back(21);
+  z[0] = 19;
+  std::cout << z[0] << " " << z[1] << "\n";
 }
